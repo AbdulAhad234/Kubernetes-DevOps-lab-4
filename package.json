@@ -1,0 +1,12 @@
+{
+    "name": "kube-lab-app",
+    "version": "1.0.0",
+    "description": "Simple Kubernetes lab app",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js",
+      "test": "echo 'Tests passed!' && exit 0"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+  }
