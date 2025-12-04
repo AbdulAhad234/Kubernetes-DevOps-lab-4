@@ -5,7 +5,7 @@ metadata:
   labels:
     app: kube-lab
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: kube-lab
@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: kube-lab
+        version: stable
     spec:
       containers:
       - name: kube-lab-container
@@ -20,3 +21,33 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
+        env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENV
+        - name: APP_VERSION
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_VERSION
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "150Mi"
+          limits:
+            cpu: "300m"
+            memory: "300Mi"
